@@ -6,7 +6,7 @@
 <title>酒店AI实战营</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+<!-- CloudBase SDK 待环境配置后启用 -->
 <style>
 :root {
   --bg: #f5f6fa; --card: #ffffff; --card2: #f0f2f8;
@@ -164,6 +164,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
     <div class="progress-stats">
       <span id="statDone">已完成 0/22</span>
       <span id="statContinue"></span>
+      <span style="cursor:pointer" onclick="setName()" title="设置姓名">👤</span>
+      <span style="cursor:pointer" onclick="showAdmin()" title="学习报告">📊</span>
     </div>
   </div>
   <div id="sections"></div>
@@ -200,79 +202,20 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
 </div>
 
 <script>
-// ---- CloudBase ----
-const TCB_ENV = 'dingyiwan-8g0j4wwq53afc403';
-let tcbApp = null;
-let tcbDb = null;
-let tcbReady = false;
-let studentId = '';
-
-// Init CloudBase
-try {
-  tcbApp = cloudbase.init({ env: TCB_ENV });
-  tcbApp.auth({ persistence: 'local' }).anonymousAuthProvider().signIn().then(uid => {
-    studentId = uid;
-    tcbDb = tcbApp.database();
-    tcbReady = true;
-    console.log('CloudBase 已连接');
-    loadProgressFromCloud();
-  }).catch(e => {
-    console.log('CloudBase auth fallback, using local mode');
-    tcbReady = false;
-    loadProgressLocal();
-  });
-} catch(e) {
-  console.log('CloudBase init fallback');
-  tcbReady = false;
-  loadProgressLocal();
-}
-
 // ---- State ----
 let config = null;
 let progress = {};
 let sections = [];
 let currentLesson = null;
-
-function loadProgressLocal() {
-  try { progress = JSON.parse(localStorage.getItem('hotel_ai_v3')||'{}'); } catch(e) {}
-}
-
-function loadProgressFromCloud() {
-  if (!tcbReady || !tcbDb) { loadProgressLocal(); return; }
-  tcbDb.collection('progress').where({ studentId }).get().then(res => {
-    if (res.data && res.data.length > 0) {
-      res.data.forEach(row => { progress[row.lessonId] = row.done; });
-    }
-    // Merge with local
-    const local = JSON.parse(localStorage.getItem('hotel_ai_v3')||'{}');
-    Object.keys(local).forEach(k => { if (!progress[k]) progress[k] = local[k]; });
-    save();
-  }).catch(() => loadProgressLocal());
-}
-
-function save() {
-  localStorage.setItem('hotel_ai_v3', JSON.stringify(progress));
-  // Sync to CloudBase
-  if (tcbReady && tcbDb) {
-    Object.entries(progress).forEach(([lessonId, done]) => {
-      tcbDb.collection('progress').where({ studentId, lessonId: parseInt(lessonId) }).get().then(res => {
-        if (res.data && res.data.length > 0) {
-          tcbDb.collection('progress').doc(res.data[0]._id).update({ done, updatedAt: new Date() });
-        } else {
-          tcbDb.collection('progress').add({ studentId, lessonId: parseInt(lessonId), done, createdAt: new Date(), updatedAt: new Date() });
-        }
-      }).catch(()=>{});
-    });
-  }
-}
+let studentName = '';
 
 // ---- Load ----
+try { progress = JSON.parse(localStorage.getItem('hotel_ai_v3')||'{}'); } catch(e) {}
+studentName = localStorage.getItem('hotel_ai_name') || '';
+
 fetch('config.json?'+Date.now()).then(r=>r.json()).then(c=>{
   config = c;
   document.title = c.courseName;
-  if (!tcbReady) loadProgressLocal();
-
-  // Build sections
   const secMap = new Map();
   c.lessons.forEach(l => {
     let sec = l.section || '课程内容';
@@ -280,10 +223,11 @@ fetch('config.json?'+Date.now()).then(r=>r.json()).then(c=>{
     secMap.get(sec).push(l);
   });
   sections = Array.from(secMap, ([name, lessons]) => ({name, lessons}));
-  if (document.getElementById('gate').style.display === 'none' || document.getElementById('app').style.display === 'block') {
-    renderApp();
-  }
 });
+
+function save() {
+  localStorage.setItem('hotel_ai_v3', JSON.stringify(progress));
+}
 
 document.getElementById('codeInput').addEventListener('keydown', e => {
   if (e.key==='Enter') checkCode();
@@ -443,71 +387,63 @@ if (lessonParam && config) {
   }, 500);
 }
 
-// ---- Admin ----
+// ---- Admin & Export ----
 function showAdmin() {
-  if (!tcbReady || !tcbDb) {
-    alert('CloudBase 未连接，无法查看数据');
-    return;
+  // Build a report from local progress
+  const done = Object.entries(progress).filter(([k,v]) => v===true).length;
+  const total = config ? config.lessons.length : 22;
+  const pct = Math.round(done/total*100);
+
+  let report = `📊 学习报告\n`;
+  report += `学员: ${studentName || '未设置姓名'}\n`;
+  report += `进度: ${done}/${total} (${pct}%)\n`;
+  report += `时间: ${new Date().toLocaleString('zh-CN')}\n\n`;
+  report += `已完成课程:\n`;
+
+  if (config) {
+    config.lessons.filter(l => progress[l.id] === true).forEach(l => {
+      report += `  ✅ 第${l.id}课: ${l.title}\n`;
+    });
   }
-  tcbDb.collection('progress').get().then(res => {
-    const data = res.data || [];
-    // Aggregate
-    const studentMap = {};
-    data.forEach(row => {
-      if (!studentMap[row.studentId]) studentMap[row.studentId] = { done: 0, total: 0, lastActive: '' };
-      if (row.done === true) studentMap[row.studentId].done++;
-      studentMap[row.studentId].total++;
-      if (row.updatedAt > (studentMap[row.studentId].lastActive || '')) {
-        studentMap[row.studentId].lastActive = row.updatedAt;
-      }
+
+  report += `\n未完成:\n`;
+  if (config) {
+    config.lessons.filter(l => !progress[l.id] || progress[l.id] !== true).forEach(l => {
+      report += `  ⬜ 第${l.id}课: ${l.title}\n`;
     });
+  }
 
-    let html = `<div style="padding:20px;max-width:800px;margin:0 auto;">
-      <h2>📊 学员学习数据</h2>
-      <p style="color:var(--text2);margin-bottom:16px">共 ${Object.keys(studentMap).length} 位学员</p>
-      <table style="width:100%;border-collapse:collapse">
-      <tr style="border-bottom:1px solid var(--border)">
-        <th style="padding:10px;text-align:left">学员 ID</th>
-        <th style="padding:10px;text-align:center">完成课时</th>
-        <th style="padding:10px;text-align:right">最近活跃</th>
-      </tr>`;
+  report += `\n--- 酒店AI实战营 · 谢瑷瞳工作室 ---`;
 
-    Object.entries(studentMap).sort((a,b) => b[1].done - a[1].done).forEach(([sid, stats]) => {
-      const pct = config ? Math.round(stats.done / config.lessons.length * 100) : 0;
-      const date = stats.lastActive ? new Date(stats.lastActive).toLocaleDateString('zh-CN') : '-';
-      html += `<tr style="border-bottom:1px solid var(--border)">
-        <td style="padding:10px">${sid.substring(0,12)}...</td>
-        <td style="padding:10px;text-align:center">${stats.done} / ${config ? config.lessons.length : '?'} (${pct}%)</td>
-        <td style="padding:10px;text-align:right">${date}</td>
-      </tr>`;
-    });
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('player').style.display = 'none';
+  document.getElementById('footer').style.display = 'block';
+  document.getElementById('sections').innerHTML = `
+    <div style="padding:20px;max-width:600px;margin:0 auto;line-height:1.8">
+      <h2>📊 学习报告</h2>
+      <p style="color:var(--text2)">可复制发送给老师</p>
+      <pre style="background:var(--card2);padding:16px;border-radius:var(--radius);white-space:pre-wrap;font-size:13px;border:1px solid var(--border)">${report}</pre>
+      <br>
+      <button class="btn primary" onclick="copyReport()">📋 一键复制</button>
+      <button class="btn" onclick="document.getElementById('app').style.display='block';renderApp()">← 返回</button>
+    </div>`;
 
-    html += '</table><br><button class="btn" onclick="document.getElementById(\'app\').style.display=\'block\';renderApp()">← 返回课程</button></div>';
-
-    document.getElementById('app').style.display='none';
-    document.getElementById('player').style.display='none';
-    document.getElementById('footer').style.display='block';
-    document.getElementById('sections').innerHTML = html;
-  }).catch(e => {
-    alert('获取数据失败: ' + e.message);
-  });
+  window._reportText = report;
 }
 
-// Admin access: password 'admin2026' shows dashboard
-(function() {
-  setInterval(() => {
-    if (document.getElementById('gate').style.display === 'none' && document.getElementById('app').style.display === 'block') {
-      const hasAdmin = document.getElementById('adminBtn');
-      if (!hasAdmin && tcbReady) {
-        const btn = document.createElement('div');
-        btn.id = 'adminBtn';
-        btn.style.cssText = 'text-align:center;padding:8px;';
-        btn.innerHTML = '<a href="#" onclick="showAdmin();return false" style="color:var(--text2);font-size:11px">📊 学员数据</a>';
-        document.getElementById('sections').appendChild(btn);
-      }
-    }
-  }, 2000);
-})();
+function copyReport() {
+  navigator.clipboard?.writeText(window._reportText || '').then(() => toast('已复制！发给老师即可'));
+}
+
+function setName() {
+  const name = prompt('请输入你的姓名（方便老师确认学习进度）:', studentName);
+  if (name) {
+    studentName = name;
+    localStorage.setItem('hotel_ai_name', name);
+    toast('✅ 已设置: ' + name);
+    renderApp();
+  }
+}
 </script>
 </body>
 </html>
