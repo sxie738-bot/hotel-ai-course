@@ -2,242 +2,381 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>酒店AI实战营</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 :root {
-  --bg: #0f0f0f; --card: #1a1a1a; --text: #e8e4dd;
-  --text2: #8a8a80; --accent: #d4a574; --border: #2a2a2a;
-  --done: #4a8; --radius: 12px;
+  --bg: #0a0a0a; --card: #141414; --card2: #1c1c1c;
+  --text: #e8e4dd; --text2: #8a857a; --accent: #c9955e;
+  --gold: #d4a574; --border: #262626; --radius: 10px;
   --font: "PingFang SC","Microsoft YaHei",sans-serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; }
 
 /* Gate */
-.gate { max-width:400px; margin:120px auto 0; padding:40px 24px; text-align:center; }
-.gate h1 { font-size:24px; margin-bottom:6px; }
-.gate .sub { color:var(--text2); font-size:14px; margin-bottom:24px; }
+.gate {
+  max-width:380px; margin:0 auto; padding:80px 20px 0; text-align:center;
+  min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+}
+.gate .logo { font-size:56px; margin-bottom:8px; }
+.gate h1 { font-size:22px; font-weight:700; margin-bottom:4px; }
+.gate .brand { font-size:12px; color:var(--accent); margin-bottom:28px; }
 .gate input {
   width:100%; padding:14px; border-radius:var(--radius);
   border:1px solid var(--border); background:var(--card);
-  color:var(--text); font-size:15px; text-align:center;
-  outline:none; font-family:var(--font);
+  color:var(--text); font-size:16px; text-align:center; outline:none;
+  font-family:var(--font); margin-bottom:10px;
 }
 .gate input:focus { border-color:var(--accent); }
-.gate .error { color:#e0556a; font-size:13px; margin-top:10px; display:none; }
-.gate .hint { color:var(--text2); font-size:12px; margin-top:16px; }
+.gate .err { color:#e0556a; font-size:13px; height:20px; }
+.gate .hint { color:var(--text2); font-size:12px; margin-top:8px; }
+.gate .hint a { color:var(--accent); }
 
 /* App */
-.app { display:none; max-width:800px; margin:0 auto; padding:20px; }
-.header { text-align:center; padding:30px 0 20px; }
-.header h1 { font-size:22px; }
-.header .info { color:var(--text2); font-size:13px; margin-top:4px; }
-.progress-bar {
-  height:4px; background:var(--border); border-radius:2px; margin:16px 0;
-}
-.progress-bar .fill { height:100%; background:var(--accent); border-radius:2px; transition:.3s; }
-.progress-text { font-size:12px; color:var(--text2); text-align:right; }
+.app { display:none; max-width:800px; margin:0 auto; padding:0 16px 40px; }
 
-/* Lesson List */
-.lesson-list { display:flex; flex-direction:column; gap:6px; }
+/* Header */
+.header { padding:24px 0 16px; text-align:center; position:sticky; top:0; background:var(--bg); z-index:10; }
+.header h1 { font-size:20px; }
+.header .sub { font-size:12px; color:var(--text2); margin-top:2px; }
+
+/* Progress */
+.progress-wrap { margin:12px 0 20px; }
+.progress-bar { height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.progress-bar .fill { height:100%; background:var(--gold); border-radius:3px; transition:width .4s; }
+.progress-stats { display:flex; justify-content:space-between; font-size:12px; color:var(--text2); margin-top:6px; }
+
+/* Section */
+.section { margin-bottom:24px; }
+.section-title {
+  font-size:13px; font-weight:700; color:var(--accent); padding:8px 0;
+  border-bottom:1px solid var(--border); margin-bottom:8px;
+  display:flex; align-items:center; gap:8px;
+}
+.section-title .count { font-weight:400; color:var(--text2); font-size:11px; }
+
+/* Lesson Card */
 .lesson {
-  display:flex; align-items:center; gap:14px; padding:14px 16px;
+  display:flex; align-items:center; gap:12px; padding:14px;
   background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  cursor:pointer; transition:all .15s;
+  margin-bottom:6px; cursor:pointer; transition:all .15s; position:relative;
 }
-.lesson:hover { border-color:var(--accent); }
-.lesson.done { opacity:.6; }
+.lesson:active { transform:scale(.99); }
+.lesson:hover { border-color:#444; }
+.lesson.watching { border-color:var(--accent); background:var(--card2); }
+.lesson.done .num { background:var(--gold); color:#000; }
 .lesson .num {
-  width:36px; height:36px; min-width:36px; border-radius:50%;
+  width:38px; height:38px; min-width:38px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:13px; font-weight:700; background:var(--border); color:var(--text2);
+  font-size:13px; font-weight:700; background:var(--card2); color:var(--text2);
+  border:2px solid var(--border); transition:all .3s;
 }
-.lesson.done .num { background:var(--done); color:#fff; }
 .lesson .info { flex:1; min-width:0; }
-.lesson .info h3 { font-size:15px; font-weight:500; }
-.lesson .info p { font-size:12px; color:var(--text2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.lesson .dur { font-size:12px; color:var(--text2); white-space:nowrap; }
+.lesson .info h4 { font-size:14px; font-weight:500; }
+.lesson .info .desc { font-size:11px; color:var(--text2); margin-top:3px; line-height:1.4; }
+.lesson .meta { text-align:right; white-space:nowrap; }
+.lesson .meta .dur { font-size:11px; color:var(--text2); }
+.lesson .meta .status {
+  font-size:10px; padding:2px 8px; border-radius:10px;
+  background:var(--border); color:var(--text2); margin-top:4px; display:inline-block;
+}
+.lesson.done .meta .status { background:rgba(74,136,85,.2); color:#4a8; }
+.lesson.watching .meta .status { background:rgba(212,167,116,.2); color:var(--accent); }
 
-/* Player Page */
-.player-page { display:none; padding:20px; max-width:900px; margin:0 auto; }
-.player-page .back {
-  display:inline-block; padding:8px 16px; border-radius:20px;
-  border:1px solid var(--border); color:var(--text2); cursor:pointer;
-  font-size:13px; margin-bottom:16px; transition:all .15s;
+/* Player */
+.player { display:none; padding:0 0 40px; }
+.player .back {
+  display:inline-flex; align-items:center; gap:6px; padding:10px 0;
+  color:var(--text2); font-size:13px; cursor:pointer; border:none;
+  background:none; font-family:var(--font);
 }
-.player-page .back:hover { border-color:var(--accent); color:var(--accent); }
-.video-container {
+.player .back:hover { color:var(--accent); }
+.player .video-box {
   position:relative; padding-bottom:56.25%; background:#000;
-  border-radius:var(--radius); overflow:hidden; margin-bottom:16px;
+  border-radius:var(--radius); overflow:hidden; margin:8px 0 16px;
 }
-.video-container iframe {
+.player .video-box iframe {
   position:absolute; top:0; left:0; width:100%; height:100%; border:none;
 }
-.video-placeholder {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column; color:var(--text2);
+.player .video-box .placeholder {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; color:var(--text2);
 }
-.video-placeholder .icon { font-size:48px; margin-bottom:10px; }
-.player-page h2 { font-size:20px; margin-bottom:6px; }
-.player-page .desc { color:var(--text2); font-size:14px; line-height:1.7; }
-.player-page .mark-done {
-  display:inline-block; margin-top:14px; padding:10px 24px;
-  border-radius:20px; border:1px solid var(--accent);
-  color:var(--accent); cursor:pointer; font-size:14px;
-  transition:all .15s; background:transparent; font-family:var(--font);
-}
-.player-page .mark-done:hover { background:var(--accent); color:#000; }
-.player-page .mark-done.done { background:var(--done); border-color:var(--done); color:#fff; }
+.player .video-box .placeholder .icon { font-size:48px; margin-bottom:8px; }
+.player .video-box .placeholder .txt { font-size:14px; }
+.player h2 { font-size:19px; margin-bottom:6px; }
+.player .info-row { display:flex; gap:16px; color:var(--text2); font-size:12px; margin-bottom:12px; }
+.player .desc { color:var(--text2); font-size:13px; line-height:1.7; margin-bottom:16px; }
 
-/* Admin */
-.admin-link { text-align:center; margin-top:30px; }
-.admin-link a { color:var(--text2); font-size:11px; text-decoration:none; }
+.player .actions { display:flex; gap:10px; flex-wrap:wrap; }
+.btn {
+  padding:10px 20px; border-radius:20px; font-size:14px; cursor:pointer;
+  border:1px solid var(--border); background:var(--card); color:var(--text);
+  font-family:var(--font); transition:all .15s; display:inline-flex; align-items:center; gap:6px;
+}
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.btn.primary { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
+.btn.primary:hover { opacity:.85; }
+.btn.done { background:#2d5a38; border-color:#3a7a48; color:#4a8; }
+
+/* Nav */
+.player .nav { display:flex; gap:10px; margin-top:20px; }
+.player .nav .btn { flex:1; justify-content:center; font-size:13px; }
+
+/* Footer */
+.footer { text-align:center; padding:30px 0; color:var(--text2); font-size:11px; }
+.footer a { color:var(--accent); text-decoration:none; }
+
+/* Toast */
+.toast {
+  position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+  background:var(--card2); border:1px solid var(--border);
+  padding:10px 24px; border-radius:20px; font-size:13px;
+  z-index:99; animation:toastIn .3s;
+}
+@keyframes toastIn { from {opacity:0; transform:translateX(-50%) translateY(10px);} }
 </style>
 </head>
 <body>
 
 <!-- Gate -->
 <div class="gate" id="gate">
-  <h1>🏨 酒店AI实战营</h1>
-  <p class="sub">谢瑷瞳 · 订一晚教育科技</p>
-  <input type="text" id="codeInput" placeholder="请输入课程密码" autofocus>
-  <p class="error" id="gateError">密码错误，请重试</p>
-  <p class="hint">购买课程后获取密码 · 联系老师微信</p>
+  <div class="logo">🏨</div>
+  <h1>酒店AI实战营</h1>
+  <p class="brand">谢瑷瞳 · 订一晚教育科技</p>
+  <input type="text" id="codeInput" placeholder="请输入学习密码" autofocus autocomplete="off">
+  <div class="err" id="gateErr"></div>
+  <p class="hint">购课后获取密码 · <a href="https://sxie738-bot.github.io/xieaitong-profile/" target="_blank">了解课程</a></p>
 </div>
 
-<!-- Course List -->
+<!-- Main App -->
 <div class="app" id="app">
   <div class="header">
-    <h1>酒店AI实战营</h1>
-    <p class="info" id="courseInfo"></p>
+    <h1>🏨 酒店AI实战营</h1>
+    <p class="sub">谢瑷瞳  ·  订一晚（上海）教育科技</p>
   </div>
-  <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
-  <div class="progress-text" id="progressText"></div>
-  <div class="lesson-list" id="lessonList"></div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="fill" id="bar" style="width:0%"></div></div>
+    <div class="progress-stats">
+      <span id="statDone">已完成 0/22</span>
+      <span id="statContinue"></span>
+    </div>
+  </div>
+  <div id="sections"></div>
 </div>
 
 <!-- Player -->
-<div class="player-page" id="playerPage">
-  <div class="back" onclick="backToList()">← 返回课程列表</div>
-  <div class="video-container" id="videoContainer">
-    <div class="video-placeholder" id="videoPlaceholder">
+<div class="player" id="player">
+  <button class="back" onclick="backToList()">← 返回课程</button>
+  <div class="video-box" id="videoBox">
+    <div class="placeholder" id="videoPH">
       <div class="icon">🎬</div>
-      <div>视频加载中...</div>
+      <div class="txt">视频加载中…</div>
     </div>
   </div>
-  <h2 id="playerTitle"></h2>
-  <p class="desc" id="playerDesc"></p>
-  <div style="margin-top:10px;font-size:12px;color:var(--text2)">
-    <span id="playerDur"></span> · 第<span id="playerNum"></span>课
+  <h2 id="pTitle"></h2>
+  <div class="info-row">
+    <span id="pNum"></span>
+    <span id="pDur"></span>
   </div>
-  <button class="mark-done" id="markDoneBtn" onclick="toggleDone()">标记为已完成</button>
+  <div class="desc" id="pDesc"></div>
+  <div class="actions">
+    <button class="btn primary" id="btnDone" onclick="toggleDone()">✓ 标记完成</button>
+    <button class="btn" onclick="shareLesson()">📤 分享</button>
+  </div>
+  <div class="nav">
+    <button class="btn" id="btnPrev" onclick="navLesson(-1)">← 上一课</button>
+    <button class="btn" id="btnNext" onclick="navLesson(1)">下一课 →</button>
+  </div>
+</div>
+
+<div class="footer" id="footer">
+  © 2026 订一晚（上海）教育科技 · 谢瑷瞳工作室<br>
+  <a href="https://sxie738-bot.github.io/xieaitong-profile/" target="_blank">关于谢瑷瞳</a>
 </div>
 
 <script>
+// ---- State ----
 let config = null;
 let progress = {};
+let sections = [];
+let currentLesson = null;
 
-// Load config
-fetch('config.json').then(r=>r.json()).then(c=>{
+// ---- Load ----
+fetch('config.json?'+Date.now()).then(r=>r.json()).then(c=>{
   config = c;
   document.title = c.courseName;
-  document.getElementById('courseInfo').textContent = `共${c.lessons.length}节课 · ${c.teacher} · ${c.brand}`;
-}).catch(e=>console.error('Config load error:',e));
+  try { progress = JSON.parse(localStorage.getItem('hotel_ai_v2')||'{}'); } catch(e) {}
 
-// Load progress
-try { progress = JSON.parse(localStorage.getItem('hotel_ai_progress')||'{}'); } catch(e) {}
+  // Build sections
+  const secMap = new Map();
+  c.lessons.forEach(l => {
+    let sec = l.section || '课程内容';
+    if (!secMap.has(sec)) secMap.set(sec, []);
+    secMap.get(sec).push(l);
+  });
+  sections = Array.from(secMap, ([name, lessons]) => ({name, lessons}));
+});
 
-function saveProgress() { localStorage.setItem('hotel_ai_progress', JSON.stringify(progress)); }
-
-// Gate
-document.getElementById('codeInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') checkCode();
+document.getElementById('codeInput').addEventListener('keydown', e => {
+  if (e.key==='Enter') checkCode();
 });
 
 function checkCode() {
-  const input = document.getElementById('codeInput').value.trim();
-  if (!config) { setTimeout(checkCode, 500); return; }
-  if (input === config.accessCode || input === 'admin2026') {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('codeInput').value = '';
-    renderLessons();
+  if (!config) { setTimeout(checkCode,300); return; }
+  const v = document.getElementById('codeInput').value.trim();
+  if (v===config.accessCode || v==='admin2026') {
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('footer').style.display='block';
+    renderApp();
   } else {
-    document.getElementById('gateError').style.display = 'block';
-    setTimeout(()=>document.getElementById('gateError').style.display='none', 2000);
+    document.getElementById('gateErr').textContent='密码错误，请重试';
+    setTimeout(()=>document.getElementById('gateErr').textContent='',2000);
   }
 }
 
-function renderLessons() {
-  if (!config) return;
-  const done = Object.keys(progress).filter(k=>progress[k]).length;
+// ---- Render App ----
+function renderApp() {
+  const done = Object.values(progress).filter(v=>v).length;
   const total = config.lessons.length;
   const pct = Math.round(done/total*100);
-  document.getElementById('progressFill').style.width = pct+'%';
-  document.getElementById('progressText').textContent = `已完成 ${done}/${total} 节 (${pct}%)`;
+  document.getElementById('bar').style.width=pct+'%';
+  document.getElementById('statDone').textContent = `已完成 ${done}/${total} 节 (${pct}%)`;
 
-  document.getElementById('lessonList').innerHTML = config.lessons.map(l=>{
-    const isDone = progress[l.id];
-    return `<div class="lesson${isDone?' done':''}" onclick="openLesson(${l.id})">
-      <div class="num">${isDone?'✓':l.id}</div>
-      <div class="info"><h3>${l.title}</h3><p>${l.desc}</p></div>
-      <div class="dur">${l.duration}</div>
+  // Find continue
+  const next = config.lessons.find(l=>!progress[l.id]);
+  document.getElementById('statContinue').textContent = next ? `下一课：${next.title}` : '🎉 全部完成！';
+
+  // Render sections
+  document.getElementById('sections').innerHTML = sections.map(sec => {
+    const doneInSec = sec.lessons.filter(l=>progress[l.id]).length;
+    return `<div class="section">
+      <div class="section-title">
+        ${sec.name}
+        <span class="count">${doneInSec}/${sec.lessons.length}</span>
+      </div>
+      ${sec.lessons.map(l => {
+        const isDone = !!progress[l.id];
+        const isWatching = currentLesson && currentLesson.id===l.id;
+        let cls = '';
+        if (isWatching) cls=' watching';
+        else if (isDone) cls=' done';
+        return `<div class="lesson${cls}" onclick="openLesson(${l.id})">
+          <div class="num">${isDone?'✓':l.id}</div>
+          <div class="info"><h4>${l.title}</h4><div class="desc">${l.desc}</div></div>
+          <div class="meta">
+            <div class="dur">${l.duration}</div>
+            <div class="status">${isDone?'已完成':isWatching?'继续学习':'未开始'}</div>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
   }).join('');
 }
 
+// ---- Player ----
 function openLesson(id) {
   const l = config.lessons.find(x=>x.id===id);
   if (!l) return;
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('playerPage').style.display = 'block';
-  document.getElementById('playerTitle').textContent = l.title;
-  document.getElementById('playerDesc').textContent = l.desc;
-  document.getElementById('playerDur').textContent = l.duration;
-  document.getElementById('playerNum').textContent = l.id;
+  currentLesson = l;
 
-  // Video embed
-  const container = document.getElementById('videoContainer');
+  document.getElementById('app').style.display='none';
+  document.getElementById('footer').style.display='none';
+  document.getElementById('player').style.display='block';
+
+  document.getElementById('pTitle').textContent=l.title;
+  document.getElementById('pDesc').textContent=l.desc;
+  document.getElementById('pNum').textContent=`第${l.id}课`;
+  document.getElementById('pDur').textContent=l.duration;
+
+  // Video
+  const box = document.getElementById('videoBox');
   if (l.videoId) {
-    // Bilibili embed: videoId like "BV1xx411c7mD&p=1"
-    container.innerHTML = `<iframe src="https://player.bilibili.com/player.html?bvid=${l.videoId}&autoplay=0" allowfullscreen></iframe>`;
+    box.innerHTML=`<iframe src="https://player.bilibili.com/player.html?bvid=${l.videoId}&autoplay=0&highQuality=1" allowfullscreen></iframe>`;
   } else if (l.videoUrl) {
-    // Direct video URL (COS etc)
-    container.innerHTML = `<video controls style="position:absolute;top:0;left:0;width:100%;height:100%" src="${l.videoUrl}"></video>`;
+    box.innerHTML=`<video controls playsinline style="position:absolute;top:0;left:0;width:100%;height:100%" src="${l.videoUrl}"></video>`;
   } else {
-    container.innerHTML = `<div class="video-placeholder"><div class="icon">🎬</div><div>视频即将上线</div><div style="font-size:12px;color:var(--text2);margin-top:6px">请联系老师获取最新课程安排</div></div>`;
+    box.innerHTML=`<div class="placeholder"><div class="icon">🎬</div><div class="txt">视频即将上线</div><div style="font-size:12px;color:var(--text2);margin-top:6px">联系老师获取最新课程</div></div>`;
   }
 
-  // Mark done btn
-  const btn = document.getElementById('markDoneBtn');
+  // Done btn
+  const btn = document.getElementById('btnDone');
   if (progress[l.id]) {
-    btn.textContent = '✓ 已完成';
-    btn.className = 'mark-done done';
+    btn.textContent='✓ 已完成'; btn.className='btn done';
   } else {
-    btn.textContent = '标记为已完成';
-    btn.className = 'mark-done';
+    btn.textContent='✓ 标记完成'; btn.className='btn primary';
   }
-  btn.dataset.lessonId = l.id;
+
+  // Nav btns
+  const idx = config.lessons.findIndex(x=>x.id===id);
+  document.getElementById('btnPrev').style.visibility = idx>0 ? 'visible':'hidden';
+  document.getElementById('btnNext').style.visibility = idx<config.lessons.length-1 ? 'visible':'hidden';
+
+  // Auto-mark as started
+  if (!progress[l.id]) {
+    progress[l.id] = 'started';
+    save();
+    renderApp();
+  }
 
   window.scrollTo(0,0);
 }
 
 function toggleDone() {
-  const id = parseInt(document.getElementById('markDoneBtn').dataset.lessonId);
-  progress[id] = !progress[id];
-  saveProgress();
-  const l = config.lessons.find(x=>x.id===id);
+  if (!currentLesson) return;
+  const id = currentLesson.id;
+  progress[id] = progress[id]===true ? false : true;
+  save();
   openLesson(id);
-  renderLessons();
+  renderApp();
+  toast(progress[id] ? '✅ 已标记完成！' : '已取消标记');
+}
+
+function navLesson(dir) {
+  if (!currentLesson) return;
+  const idx = config.lessons.findIndex(x=>x.id===currentLesson.id);
+  const next = config.lessons[idx+dir];
+  if (next) openLesson(next.id);
 }
 
 function backToList() {
-  document.getElementById('playerPage').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  renderLessons();
+  document.getElementById('player').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('footer').style.display='block';
+  currentLesson = null;
+  renderApp();
   window.scrollTo(0,0);
+}
+
+function shareLesson() {
+  if (!currentLesson) return;
+  const url = `${location.origin}${location.pathname}?lesson=${currentLesson.id}`;
+  navigator.clipboard?.writeText(url).then(()=>toast('链接已复制！发给学员即可'));
+}
+
+function save() {
+  localStorage.setItem('hotel_ai_v2', JSON.stringify(progress));
+}
+
+function toast(msg) {
+  const el = document.createElement('div'); el.className='toast'; el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 2000);
+}
+
+// URL deep link
+const params = new URLSearchParams(location.search);
+const lessonParam = params.get('lesson');
+if (lessonParam && config) {
+  setTimeout(()=>{
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    openLesson(parseInt(lessonParam));
+  }, 500);
 }
 </script>
 </body>

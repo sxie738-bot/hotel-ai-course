@@ -4,27 +4,31 @@
   "brand": "订一晚（上海）教育科技有限公司",
   "accessCode": "hotelai2026",
   "lessons": [
-    {"id": 1, "title": "AI工具的分类", "duration": "25分钟", "videoId": "", "desc": "思考类、执行类、智能体、快应用、电脑部署工具——五大类AI工具一次讲清楚"},
-    {"id": 2, "title": "AI工具避坑", "duration": "22分钟", "videoId": "", "desc": "酒店人用AI最容易踩的坑和避坑指南"},
-    {"id": 3, "title": "让AI成为第二大脑", "duration": "28分钟", "videoId": "", "desc": "如何用AI管理信息、整理思路、辅助决策"},
-    {"id": 4, "title": "金牌前台·数字替身", "duration": "30分钟", "videoId": "", "desc": "用AI打造24小时在线的智能前台，自动回复客人问题"},
-    {"id": 5, "title": "公文大师智能体", "duration": "25分钟", "videoId": "", "desc": "一键生成酒店公文、通知、制度文件"},
-    {"id": 6, "title": "五分钟打造AI情商教练", "duration": "20分钟", "videoId": "", "desc": "用AI训练员工沟通话术，提升客户满意度"},
-    {"id": 7, "title": "酒店AI营销团队", "duration": "32分钟", "videoId": "", "desc": "AI写OTA文案、客诉回复、短信营销——一个人就是一个营销部"},
-    {"id": 8, "title": "企业微信24小时客服", "duration": "28分钟", "videoId": "", "desc": "企业微信接入AI客服，自动回复、自动打标签、自动跟进"},
-    {"id": 9, "title": "飞书入门·生成电子日历", "duration": "22分钟", "videoId": "", "desc": "飞书基础操作+AI生成电子日历，提升团队协作效率"},
-    {"id": 10, "title": "飞书进阶·AI字段处理数据", "duration": "30分钟", "videoId": "", "desc": "AI自动处理表格数据，告别手工复制粘贴"},
-    {"id": 11, "title": "飞书·酒店数据规范", "duration": "25分钟", "videoId": "", "desc": "酒店数据标准化管理，让数据真正可用"},
-    {"id": 12, "title": "飞书·点评回复AI表格", "duration": "28分钟", "videoId": "", "desc": "AI批量分析点评+自动生成回复+数据看板"},
-    {"id": 13, "title": "前台客资留存AI自动记录", "duration": "35分钟", "videoId": "", "desc": "前台客人信息自动记录、自动分类、自动跟进提醒"},
-    {"id": 14, "title": "AI+酒店内务管理", "duration": "32分钟", "videoId": "", "desc": "AI查房记录、布草管理、设备报修——内务管理全流程AI化"},
-    {"id": 15, "title": "AI制作PPT", "duration": "30分钟", "videoId": "", "desc": "用AI从零生成专业PPT，酒店汇报、培训、招商全搞定"},
-    {"id": 16, "title": "AI写出爆款文案", "duration": "35分钟", "videoId": "", "desc": "OTA文案、公众号文章、朋友圈营销——AI写出高转化文案"},
-    {"id": 17, "title": "酒店新媒体小白起步流程", "duration": "40分钟", "videoId": "", "desc": "零基础做酒店新媒体，从账号注册到内容规划全流程"},
-    {"id": 18, "title": "酒店如何做好AI推荐", "duration": "38分钟", "videoId": "", "desc": "GEO优化核心逻辑——让你的酒店被豆包、元宝等AI推荐"},
-    {"id": 19, "title": "图文制作方法", "duration": "35分钟", "videoId": "", "desc": "不会PS不会文案？AI帮你做出携程旅拍优质图文"},
-    {"id": 20, "title": "视频制作方法", "duration": "待录制", "videoId": "", "desc": "一部手机+AI，酒店宣传视频轻松做"},
-    {"id": 21, "title": "酒店人养龙虾", "duration": "30分钟", "videoId": "", "desc": "AI智能体实战——打造酒店专属AI助手"},
-    {"id": 22, "title": "WorkBuddy高阶用法", "duration": "35分钟", "videoId": "", "desc": "WorkBuddy进阶技巧，让AI真正成为你的工作伙伴"}
+    {"id":1, "section":"一、AI工具认知篇", "title":"AI工具的分类", "duration":"25分钟", "videoId":"", "desc":"思考类、执行类、智能体、快应用、电脑部署工具——五大类AI工具一次讲清楚，帮你建立AI工具全景图"},
+    {"id":2, "section":"一、AI工具认知篇", "title":"AI工具避坑", "duration":"22分钟", "videoId":"", "desc":"酒店人用AI最容易踩的5个坑：选错工具、期望过高、不会提问、数据安全、盲目跟风"},
+    {"id":3, "section":"一、AI工具认知篇", "title":"让AI成为第二大脑", "duration":"28分钟", "videoId":"", "desc":"信息管理、思路整理、辅助决策——把AI训练成你的专属智囊团"},
+
+    {"id":4, "section":"二、前台与客服AI化", "title":"金牌前台·数字替身", "duration":"30分钟", "videoId":"", "desc":"用AI打造24小时在线的智能前台，自动回复客人常见问题，提升入住体验"},
+    {"id":5, "section":"二、前台与客服AI化", "title":"公文大师智能体", "duration":"25分钟", "videoId":"", "desc":"一键生成酒店公文、通知、制度文件——告别反复修改格式"},
+    {"id":6, "section":"二、前台与客服AI化", "title":"五分钟打造AI情商教练", "duration":"20分钟", "videoId":"", "desc":"用AI训练员工标准沟通话术，提升客户满意度和好评率"},
+    {"id":8, "section":"二、前台与客服AI化", "title":"企业微信24小时客服", "duration":"28分钟", "videoId":"", "desc":"企微接入AI客服：自动回复、自动打标签、自动跟进，一个人管1000个客户"},
+
+    {"id":7, "section":"三、营销与内容AI化", "title":"酒店AI营销团队", "duration":"32分钟", "videoId":"", "desc":"AI写OTA文案、客诉回复、短信营销——一个人就是一个营销部"},
+    {"id":16, "section":"三、营销与内容AI化", "title":"AI写出爆款文案", "duration":"35分钟", "videoId":"", "desc":"OTA文案、公众号文章、朋友圈营销——用AI写出高转化为的酒店文案"},
+    {"id":17, "section":"三、营销与内容AI化", "title":"酒店新媒体小白起步流程", "duration":"40分钟", "videoId":"", "desc":"零基础做酒店新媒体：账号注册、内容规划、发布节奏——全流程指南"},
+    {"id":18, "section":"三、营销与内容AI化", "title":"酒店如何做好AI推荐", "duration":"38分钟", "videoId":"", "desc":"GEO优化核心逻辑——让你的酒店被豆包、元宝等AI助手主动推荐"},
+    {"id":19, "section":"三、营销与内容AI化", "title":"图文制作方法", "duration":"35分钟", "videoId":"", "desc":"不会PS不会文案？用AI做出携程旅拍优质图文，半小时一篇"},
+
+    {"id":9, "section":"四、飞书高效办公", "title":"飞书入门·生成电子日历", "duration":"22分钟", "videoId":"", "desc":"飞书基础操作：AI生成电子日历，提升团队协作和排班效率"},
+    {"id":10, "section":"四、飞书高效办公", "title":"飞书进阶·AI字段处理数据", "duration":"30分钟", "videoId":"", "desc":"AI自动处理表格数据：提取、分类、汇总——告别手工复制粘贴"},
+    {"id":11, "section":"四、飞书高效办公", "title":"飞书·酒店数据规范", "duration":"25分钟", "videoId":"", "desc":"酒店经营数据标准化管理：让数据真正可用、可比、可分析"},
+    {"id":12, "section":"四、飞书高效办公", "title":"飞书·点评回复AI表格", "duration":"28分钟", "videoId":"", "desc":"AI批量分析客人点评+自动生成回复话术+数据看板——一套表格搞定"},
+
+    {"id":13, "section":"五、酒店全场景AI落地", "title":"前台客资留存AI自动记录", "duration":"35分钟", "videoId":"", "desc":"前台客人信息自动记录、自动分类标签、自动生成跟进提醒"},
+    {"id":14, "section":"五、酒店全场景AI落地", "title":"AI+酒店内务管理", "duration":"32分钟", "videoId":"", "desc":"AI查房记录、布草管理、设备报修——内务管理全流程AI化"},
+    {"id":15, "section":"五、酒店全场景AI落地", "title":"AI制作PPT", "duration":"30分钟", "videoId":"", "desc":"用AI从零生成专业PPT：酒店汇报、员工培训、招商路演全搞定"},
+    {"id":20, "section":"五、酒店全场景AI落地", "title":"视频制作方法", "duration":"待录制", "videoId":"", "desc":"一部手机+AI，酒店宣传视频轻松做——零基础也能出片"},
+    {"id":21, "section":"五、酒店全场景AI落地", "title":"酒店人养龙虾", "duration":"30分钟", "videoId":"", "desc":"AI智能体实战——打造你酒店专属的AI助手，24小时在线服务"},
+    {"id":22, "section":"五、酒店全场景AI落地", "title":"WorkBuddy高阶用法", "duration":"35分钟", "videoId":"", "desc":"WorkBuddy进阶技巧：自动化工作流+批量处理，让AI真正成为你的工作伙伴"}
   ]
 }
