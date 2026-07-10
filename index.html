@@ -8,9 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 :root {
-  --bg: #0a0a0a; --card: #141414; --card2: #1c1c1c;
-  --text: #e8e4dd; --text2: #8a857a; --accent: #c9955e;
-  --gold: #d4a574; --border: #262626; --radius: 10px;
+  --bg: #f5f6fa; --card: #ffffff; --card2: #f0f2f8;
+  --text: #1a1f36; --text2: #6b7394; --accent: #3b5ccc;
+  --gold: #4f6ef6; --border: #e2e6f0; --radius: 10px;
   --font: "PingFang SC","Microsoft YaHei",sans-serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -67,7 +67,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
 .lesson:active { transform:scale(.99); }
 .lesson:hover { border-color:#444; }
 .lesson.watching { border-color:var(--accent); background:var(--card2); }
-.lesson.done .num { background:var(--gold); color:#000; }
+.lesson.done .num { background:var(--accent); color:#fff; }
 .lesson .num {
   width:38px; height:38px; min-width:38px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
@@ -84,7 +84,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
   background:var(--border); color:var(--text2); margin-top:4px; display:inline-block;
 }
 .lesson.done .meta .status { background:rgba(74,136,85,.2); color:#4a8; }
-.lesson.watching .meta .status { background:rgba(212,167,116,.2); color:var(--accent); }
+.lesson.watching .meta .status { background:rgba(59,92,204,.12); color:var(--accent); }
 
 /* Player */
 .player { display:none; padding:0 0 40px; }
@@ -118,7 +118,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
   font-family:var(--font); transition:all .15s; display:inline-flex; align-items:center; gap:6px;
 }
 .btn:hover { border-color:var(--accent); color:var(--accent); }
-.btn.primary { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
+.btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
 .btn.primary:hover { opacity:.85; }
 .btn.done { background:#2d5a38; border-color:#3a7a48; color:#4a8; }
 
