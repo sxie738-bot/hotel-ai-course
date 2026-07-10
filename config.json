@@ -10,7 +10,8 @@
       "title": "AI工具的分类",
       "duration": "25分钟",
       "videoId": "",
-      "desc": "思考类、执行类、智能体、快应用、电脑部署工具——五大类AI工具一次讲清楚，帮你建立AI工具全景图"
+      "desc": "思考类、执行类、智能体、快应用、电脑部署工具——五大类AI工具一次讲清楚，帮你建立AI工具全景图",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/1%E3%80%81AI%E5%B7%A5%E5%85%B7%E7%9A%84%E5%88%86%E7%B1%BB%EF%BC%88mp4%EF%BC%89.mov"
     },
     {
       "id": 2,
@@ -18,7 +19,8 @@
       "title": "AI工具避坑",
       "duration": "22分钟",
       "videoId": "",
-      "desc": "酒店人用AI最容易踩的5个坑：选错工具、期望过高、不会提问、数据安全、盲目跟风"
+      "desc": "酒店人用AI最容易踩的5个坑：选错工具、期望过高、不会提问、数据安全、盲目跟风",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/2%E3%80%81AI%E5%B7%A5%E5%85%B7%E9%81%BF%E5%9D%91%EF%BC%88mp4%EF%BC%89.mov"
     },
     {
       "id": 3,
@@ -26,7 +28,8 @@
       "title": "让AI成为第二大脑",
       "duration": "28分钟",
       "videoId": "",
-      "desc": "信息管理、思路整理、辅助决策——把AI训练成你的专属智囊团"
+      "desc": "信息管理、思路整理、辅助决策——把AI训练成你的专属智囊团",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/3%E3%80%81%E8%AE%A9AI%E6%88%90%E4%B8%BA%E7%AC%AC%E4%BA%8C%E5%A4%A7%E8%84%91%EF%BC%88mp4%EF%BC%89.mov"
     },
     {
       "id": 4,
@@ -34,7 +37,8 @@
       "title": "金牌前台·数字替身",
       "duration": "30分钟",
       "videoId": "",
-      "desc": "用AI打造24小时在线的智能前台，自动回复客人常见问题，提升入住体验"
+      "desc": "用AI打造24小时在线的智能前台，自动回复客人常见问题，提升入住体验",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/4%E3%80%81%E3%80%90%E9%87%91%E7%89%8C%E5%89%8D%E5%8F%B0%E3%80%91%E6%95%B0%E5%AD%97%E6%9B%BF%E8%BA%AB%EF%BC%88MP4%EF%BC%89.mov"
     },
     {
       "id": 5,
@@ -42,7 +46,8 @@
       "title": "公文大师智能体",
       "duration": "25分钟",
       "videoId": "",
-      "desc": "一键生成酒店公文、通知、制度文件——告别反复修改格式"
+      "desc": "一键生成酒店公文、通知、制度文件——告别反复修改格式",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/5%E3%80%81%E5%85%AC%E6%96%87%E5%A4%A7%E5%B8%88%E6%99%BA%E8%83%BD%E4%BD%93.mov"
     },
     {
       "id": 6,
@@ -50,7 +55,8 @@
       "title": "五分钟打造AI情商教练",
       "duration": "20分钟",
       "videoId": "",
-      "desc": "用AI训练员工标准沟通话术，提升客户满意度和好评率"
+      "desc": "用AI训练员工标准沟通话术，提升客户满意度和好评率",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/6%E3%80%81%E4%BA%94%E5%88%86%E9%92%9F%E6%89%93%E9%80%A0%E9%85%92%E5%BA%97%E4%BA%BAAI%E6%83%85%E5%95%86%E6%95%99%E7%BB%83.mov"
     },
     {
       "id": 8,
@@ -58,7 +64,8 @@
       "title": "企业微信24小时客服",
       "duration": "28分钟",
       "videoId": "",
-      "desc": "企微接入AI客服：自动回复、自动打标签、自动跟进，一个人管1000个客户"
+      "desc": "企微接入AI客服：自动回复、自动打标签、自动跟进，一个人管1000个客户",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/8%E3%80%81%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A124%E5%B0%8F%E6%97%B6%E5%AE%A2%E6%9C%8D.mov"
     },
     {
       "id": 7,
@@ -66,7 +73,8 @@
       "title": "酒店AI营销团队",
       "duration": "32分钟",
       "videoId": "",
-      "desc": "AI写OTA文案、客诉回复、短信营销——一个人就是一个营销部"
+      "desc": "AI写OTA文案、客诉回复、短信营销——一个人就是一个营销部",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/7%E3%80%81%E9%85%92%E5%BA%97AI%E8%90%A5%E9%94%80%E5%9B%A2%E9%98%9F.mov"
     },
     {
       "id": 16,
@@ -92,7 +100,8 @@
       "title": "酒店如何做好AI推荐",
       "duration": "38分钟",
       "videoId": "",
-      "desc": "GEO优化核心逻辑——让你的酒店被豆包、元宝等AI助手主动推荐"
+      "desc": "GEO优化核心逻辑——让你的酒店被豆包、元宝等AI助手主动推荐",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/18%E3%80%81%E9%85%92%E5%BA%97%E5%81%9A%E5%A6%82%E4%BD%95%E5%81%9A%E5%A5%BDAI%E6%8E%A8%E8%8D%90.mov"
     },
     {
       "id": 19,
@@ -108,7 +117,8 @@
       "title": "飞书入门·生成电子日历",
       "duration": "22分钟",
       "videoId": "",
-      "desc": "飞书基础操作：AI生成电子日历，提升团队协作和排班效率"
+      "desc": "飞书基础操作：AI生成电子日历，提升团队协作和排班效率",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/9%E3%80%81%E3%80%90%E9%A3%9E%E4%B9%A6%E5%85%A5%E9%97%A8%E3%80%91%E7%94%9F%E6%88%90%E7%94%B5%E5%AD%90%E6%97%A5%E5%8E%86.mov"
     },
     {
       "id": 10,
@@ -178,7 +188,8 @@
       "title": "酒店人养龙虾",
       "duration": "30分钟",
       "videoId": "",
-      "desc": "AI智能体实战——打造你酒店专属的AI助手，24小时在线服务"
+      "desc": "AI智能体实战——打造你酒店专属的AI助手，24小时在线服务",
+      "videoUrl": "https://dingyiwan-1313110312.cos.ap-shanghai.myqcloud.com/videos/21%E3%80%81%E9%85%92%E5%BA%97%E4%BA%BA%E5%85%BB%E9%BE%99%E8%99%BE%20.mov"
     },
     {
       "id": 22,
