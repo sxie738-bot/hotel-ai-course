@@ -157,7 +157,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
 <div class="app" id="app">
   <div class="header">
     <h1>🏨 酒店AI实战营</h1>
-    <p class="sub">谢瑷瞳  ·  订一晚（上海）教育科技</p>
+    <p class="sub">谢瑷瞳  ·  订一晚（上海）教育科技<span id="headerStudentId"></span></p>
   </div>
   <div class="progress-wrap">
     <div class="progress-bar"><div class="fill" id="bar" style="width:0%"></div></div>
@@ -208,10 +208,14 @@ let progress = {};
 let sections = [];
 let currentLesson = null;
 let studentName = '';
+let currentStudentId = '';
+let currentInviteCode = '';
 
 // ---- Load ----
 try { progress = JSON.parse(localStorage.getItem('hotel_ai_v3')||'{}'); } catch(e) {}
 studentName = localStorage.getItem('hotel_ai_name') || '';
+currentStudentId = localStorage.getItem('hotel_ai_sid') || '';
+currentInviteCode = localStorage.getItem('hotel_ai_icode') || '';
 
 fetch('config.json?'+Date.now()).then(r=>r.json()).then(c=>{
   config = c;
@@ -236,6 +240,25 @@ document.getElementById('codeInput').addEventListener('keydown', e => {
 function checkCode() {
   if (!config) { setTimeout(checkCode,300); return; }
   const v = document.getElementById('codeInput').value.trim();
+
+  // Check invite codes first
+  if (config.inviteCodes && config.inviteCodes[v]) {
+    const info = config.inviteCodes[v];
+    currentStudentId = info.studentId || '';
+    currentInviteCode = v;
+    localStorage.setItem('hotel_ai_sid', currentStudentId);
+    localStorage.setItem('hotel_ai_icode', v);
+    if (info.name && !studentName) {
+      studentName = info.name;
+      localStorage.setItem('hotel_ai_name', info.name);
+    }
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('footer').style.display='block';
+    renderApp();
+    return;
+  }
+
   if (v===config.accessCode || v==='admin2026') {
     document.getElementById('gate').style.display='none';
     document.getElementById('app').style.display='block';
@@ -254,6 +277,12 @@ function renderApp() {
   const pct = Math.round(done/total*100);
   document.getElementById('bar').style.width=pct+'%';
   document.getElementById('statDone').textContent = `已完成 ${done}/${total} 节 (${pct}%)`;
+  const headerStudentId = document.getElementById('headerStudentId');
+  if (currentStudentId) {
+    headerStudentId.textContent = `  ·  学员 ${currentStudentId}`;
+  } else {
+    headerStudentId.textContent = '';
+  }
 
   // Find continue
   const next = config.lessons.find(l=>!progress[l.id]);
@@ -396,6 +425,8 @@ function showAdmin() {
 
   let report = `📊 学习报告\n`;
   report += `学员: ${studentName || '未设置姓名'}\n`;
+  if (currentStudentId) report += `学员ID: ${currentStudentId}\n`;
+  if (currentInviteCode && currentInviteCode!=='admin2026') report += `邀请码: ${currentInviteCode}\n`;
   report += `进度: ${done}/${total} (${pct}%)\n`;
   report += `时间: ${new Date().toLocaleString('zh-CN')}\n\n`;
   report += `已完成课程:\n`;

@@ -3,6 +3,9 @@
   "teacher": "谢瑷瞳",
   "brand": "订一晚（上海）教育科技有限公司",
   "accessCode": "hotelai2026",
+  "inviteCodes": {
+    "shan2026": { "studentId": "2097", "name": "" }
+  },
   "lessons": [
     {
       "id": 1,
